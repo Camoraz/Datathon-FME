@@ -123,7 +123,14 @@ def recommend(participant, n):
     
     return distance_list[:n], effect_list
 
+<<<<<<< HEAD
 from participant import Participant
 
 distance, effect = recommend(0, 10)
 print(distance)
+=======
+
+if __name__ == '__main__':
+    distance, effect = recommend(0, 10)
+    print(effect)
+>>>>>>> 6813c2107bfdd10fa4c9d7117fee18af23cfc4e9
