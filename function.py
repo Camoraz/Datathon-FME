@@ -51,7 +51,7 @@ def process_data(particips):
     return returning
 
 def load_data():
-    data_path = "AEDChallenge/data/datathon_participants2.json"
+    data_path = "./data/datathon_participants2.json"
     participants = load_participants(data_path)
     participants = process_data(participants)
     data_types = {
@@ -69,15 +69,14 @@ def load_data():
 
 
 def recommend(participant, n):
-    
+    print('recommending')
     participants, data_types = load_data()
 
     categorical = data_types["categorical"]
     numeric = data_types["numeric"]
     nlp = data_types["nlp"]
 
-    #participant = process_data([participant])[0]
-    participant = participants[15]
+    participant = process_data([participant])[0]
 
     # Compute normalizer
     norm = sum(categorical.values()) + sum(numeric.values()) + sum(nlp.values())
