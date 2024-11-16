@@ -20,12 +20,14 @@ class FormData:
             return role
         return None
     def formatChallenge(self, challenge):
-        challenge = challenge.lower().strip()
+        for i, c in enumerate(challenge):
+            challenge[i] = c.lower().strip()
         if challenge in ['restb.ai challenge', 'aed challenge', 'mango challenge']:
             return challenge
         return None
     def formatLang(self, lang):
-        lang = lang.lower().strip()
+        for i,l in enumerate(lang):
+            lang[i] = l.lower().strip()
         return lang
     def formatAge(self, age):
 

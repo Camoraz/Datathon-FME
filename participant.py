@@ -29,6 +29,7 @@ class Participant:
         "Analysis", "Visualization", "Development", "Design", "Don't know", "Don't care"
     ]
     objective: str
+    objective_vector: List[float]
     interest_in_challenges: List[str]
     preferred_languages: List[str]
     friend_registration: List[uuid.UUID]
