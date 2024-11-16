@@ -1,8 +1,14 @@
 #root {
-  max-width: 1280px;
+  max-width: 700px;
   margin: 0 auto;
   padding: 2rem;
+
+  display: flex;
+  flex-direction: column;
   text-align: center;
+  justify-content: center;
+  align-items: center;
+
 }
 
 .logo {
@@ -39,4 +45,20 @@
 
 .read-the-docs {
   color: #888;
+}
+
+
+
+form
+{
+  display: flex;
+  flex-direction: column;
+
+  width: 400px;
+}
+
+.inputDiv
+{
+  display: flex;
+  justify-content:space-between;
 }
