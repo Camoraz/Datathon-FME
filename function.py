@@ -123,5 +123,7 @@ def recommend(participant, n):
     
     return distance_list[:n], effect_list
 
+from participant import Participant
+
 distance, effect = recommend(0, 10)
-print(effect)
+print(distance)
