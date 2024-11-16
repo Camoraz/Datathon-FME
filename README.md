@@ -3,49 +3,6 @@
     <h1>Repte AED - Datathon FME 2024</h1>
 </div>
 
-## Overview
-
-While brainstorming this year's challenges, we realized that one of the most interesting data problems was right in front of us - the team formation process at Datathon FME itself! 
-
-Every year we see amazing participants joining with different goals in mind - from prize-hunting and portfolio-building to learning new skills and meeting fellow data nerds. Some come with their squad ready to go, but many dive into our Discord channels hoping to find their dream team. We think that this process can be streamlined to make it easier for participants to find their perfect teammates.
-
-This is where you come in! We're challenging you to build something that could revolutionize how future participants find their teammates. Not an automated team assigner, but smart tools that help participants connect with like-minded people efficiently - matching both technical skills and hackathon goals. Your solution could transform the team formation experience for future AED generations!
-
-
-## Challenge Objectives
-
-Create a team formation system that matches datathon participants based on their characteristics and objectives, ensuring balanced and complementary teams while providing clear insights into team compositions. The system should consider both technical compatibility and alignment of participant goals. Teams up to 4 participants.
-
-Make sure to create appropriate visualizations and dashboards to help participants understand the team formation process and the composition of their teams.
-
-## Quick Start
-
-1. [Clone this repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) with Git, GitHub Desktop or by downloading the ZIP file.
-
-```bash
-git clone https://github.com/data-students/AEDChallenge
-```
-
-2. Install [Python](https://www.python.org/downloads/) (3.10 or higher)
-
-3. Enter the project directory
-
-```bash
-cd AEDChallenge
-```
-
-4. Install the project dependencies using [pip](https://pip.pypa.io/en/stable/getting-started/)
-
-```bash
-pip install -r requirements.txt
-```
-
-5. Run the example
-
-```bash
-python example.py
-```
-
 ## Documentation
 
 ### Participant
