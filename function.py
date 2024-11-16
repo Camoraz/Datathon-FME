@@ -1,3 +1,4 @@
+import json
 from participant import load_participants
 from rich import print
 import numpy as np
@@ -7,48 +8,24 @@ import re
 # Load the pre-trained Sentence-BERT model
 model = SentenceTransformer('all-MiniLM-L6-v2')
 
-# Function to detect negation words and adjust the sentence's polarity using regex
-def handle_negation(sentence):
-    # Define a pattern to look for negation words
-    negation_pattern = r"\b(?:not|never|no|n't|without|hardly|barely|nothing)\b"
-    
-    # Search for negations in the sentence
-    if re.search(negation_pattern, sentence.lower()):
-        # Flip the sentiment (simplified approach)
-        sentence = re.sub(negation_pattern, 'NEGATED', sentence, flags=re.IGNORECASE)
-    
-    return sentence
-
 # Function to get sentence embeddings
 def get_sentence_embedding(sentence, model):
+    # Function to detect negation words and adjust the sentence's polarity using regex
+    def handle_negation(sentence):
+        # Define a pattern to look for negation words
+        negation_pattern = r"\b(?:not|never|no|n't|without|hardly|barely|nothing)\b"
+        
+        # Search for negations in the sentence
+        if re.search(negation_pattern, sentence.lower()):
+            # Flip the sentiment (simplified approach)
+            sentence = re.sub(negation_pattern, 'NEGATED', sentence, flags=re.IGNORECASE)
+        
+        return sentence
+
     # Handle negations before generating embedding
     adjusted_sentence = handle_negation(sentence)
     embedding = model.encode(adjusted_sentence, convert_to_tensor=True)
     return embedding
-
-# Function to compute cosine similarity between two sentences
-def compute_similarity(sentence1, sentence2, model):
-    # Get embeddings for both sentences
-    embedding1 = get_sentence_embedding(sentence1, model)
-    embedding2 = get_sentence_embedding(sentence2, model)
-    
-    # Compute cosine similarity
-    similarity = util.pytorch_cos_sim(embedding1, embedding2)
-    return similarity.item()
-
-data_path = "AEDChallenge/data/datathon_participants.json"
-participants_pre = load_participants(data_path)
-
-categorical = {
-            "preferred_role":-2,
-            "interest_in_challenges":5,
-            "preferred_languages":5,
-            "availability":10
-            }
-
-numeric = {"experience_level":1, "age":1, "year_of_study":1, "hackathons_done":0.5}
-#nlp = {"interests":1, "objective":5, }
-nlp = {"objective":5}
 
 def process_data(particips):
     year_mapping = {
@@ -73,10 +50,34 @@ def process_data(particips):
         participant.experience_level = experience_map.get(participant.experience_level, 0)  # Default to 0 if not found
     return returning
 
-def recommend(participant, n):
+def load_data():
+    data_path = "AEDChallenge/data/datathon_participants2.json"
+    participants = load_participants(data_path)
+    participants = process_data(participants)
+    data_types = {
+        "categorical" : {
+                        "preferred_role":-2,
+                        "interest_in_challenges":5,
+                        "preferred_languages":5,
+                        "availability":10
+                        },
+        "numeric" : {"experience_level":1, "age":1, "year_of_study":1, "hackathons_done":0.5},
+        "nlp" : {"objective_vector":5}
+    }
 
-    participants = process_data(participants_pre)
-    participant = process_data([participant])[0]
+    return participants, data_types
+
+
+def recommend(participant, n):
+    
+    participants, data_types = load_data()
+
+    categorical = data_types["categorical"]
+    numeric = data_types["numeric"]
+    nlp = data_types["nlp"]
+
+    #participant = process_data([participant])[0]
+    participant = participants[15]
 
     # Compute normalizer
     norm = sum(categorical.values()) + sum(numeric.values()) + sum(nlp.values())
@@ -103,10 +104,10 @@ def recommend(participant, n):
                             != getattr(participants[i], variable)) * weight * norm
             distance += change
             effect_list[variable] = effect_list.get(variable, 0) + change
-        
+
         for variable, weight in nlp.items():
-            change = (1 - compute_similarity(getattr(participant, variable),
-                                            getattr(participants[i], variable), model) ** 2) * weight * norm
+            change = (1 - util.pytorch_cos_sim(getattr(participant, variable),
+                                            getattr(participants[i], variable)).item() ** 2) * weight * norm
             distance += change
             effect_list[variable] = effect_list.get(variable, 0) + change
 
@@ -122,5 +123,5 @@ def recommend(participant, n):
     
     return distance_list[:n], effect_list
 
-distance, effect = recommend(participants_pre[15], 10)
+distance, effect = recommend(0, 10)
 print(effect)
