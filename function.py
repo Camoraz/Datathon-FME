@@ -1,6 +1,40 @@
 from participant import load_participants
 from rich import print
 import numpy as np
+from sentence_transformers import SentenceTransformer, util
+import re
+
+# Load the pre-trained Sentence-BERT model
+model = SentenceTransformer('all-MiniLM-L6-v2')
+
+# Function to detect negation words and adjust the sentence's polarity using regex
+def handle_negation(sentence):
+    # Define a pattern to look for negation words
+    negation_pattern = r"\b(?:not|never|no|n't|without|hardly|barely|nothing)\b"
+    
+    # Search for negations in the sentence
+    if re.search(negation_pattern, sentence.lower()):
+        # Flip the sentiment (simplified approach)
+        sentence = re.sub(negation_pattern, 'NEGATED', sentence, flags=re.IGNORECASE)
+    
+    return sentence
+
+# Function to get sentence embeddings
+def get_sentence_embedding(sentence, model):
+    # Handle negations before generating embedding
+    adjusted_sentence = handle_negation(sentence)
+    embedding = model.encode(adjusted_sentence, convert_to_tensor=True)
+    return embedding
+
+# Function to compute cosine similarity between two sentences
+def compute_similarity(sentence1, sentence2, model):
+    # Get embeddings for both sentences
+    embedding1 = get_sentence_embedding(sentence1, model)
+    embedding2 = get_sentence_embedding(sentence2, model)
+    
+    # Compute cosine similarity
+    similarity = util.pytorch_cos_sim(embedding1, embedding2)
+    return similarity.item()
 
 data_path = "AEDChallenge/data/datathon_participants.json"
 participants_pre = load_participants(data_path)
@@ -13,7 +47,8 @@ categorical = {
             }
 
 numeric = {"experience_level":1, "age":1, "year_of_study":1, "hackathons_done":0.5}
-nlp = {"interests":1, "objective":5, }
+#nlp = {"interests":1, "objective":5, }
+nlp = {"objective":5}
 
 def process_data(particips):
     year_mapping = {
@@ -69,6 +104,12 @@ def recommend(participant, n):
             distance += change
             effect_list[variable] = effect_list.get(variable, 0) + change
         
+        for variable, weight in nlp.items():
+            change = (1 - compute_similarity(getattr(participant, variable),
+                                            getattr(participants[i], variable), model) ** 2) * weight * norm
+            distance += change
+            effect_list[variable] = effect_list.get(variable, 0) + change
+
         distance_list[i] = distance
 
     total_importance = sum(effect_list.values())
