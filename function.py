@@ -94,7 +94,7 @@ def recommend(participant, n):
 
         # Numeric - Euclidean Distance
         for variable, weight in numeric.items():
-            change = abs(
+            change = abs(float(getattr(participant, variable))
                             - float(getattr(participants[i], variable))) * weight * norm
             distance += change
             effect_list[variable] = effect_list.get(variable, 0) + change
