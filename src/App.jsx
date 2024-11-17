@@ -14,6 +14,7 @@ function App() {
     level: '',
     age: '',
     hackathons: '',
+    objective: ""
   });
   const [message, setMessage] = useState([]);
   const [selectedId, setSelectedId] = useState(null)
@@ -64,9 +65,7 @@ function App() {
     setSelectedId((prevId) => (prevId === id ? null : id));
   };
   
-  const foo = () => {
-    console.log(res)
-  }
+
 
   return (
     <>
@@ -206,9 +205,17 @@ function App() {
             onChange={handleChange}
           />
         </div>
-
+        {/* objective */}
+        <div>
+          <label>Objective</label>
+          <input
+          name = {"objective"}
+          value={data.objective}
+          placeholder="idk I just want to be loved" onChange={handleChange}></input>
+        </div>
         <button type="submit">Enviar</button>
       </form>
+
       <div >
         {message && message.map((item) => (
           <ul key={item.id}>

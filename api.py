@@ -11,7 +11,7 @@ CORS(app, origins=["http://localhost:5173"])  # Permite solo desde React
 def api_endpoint():
     data = request.get_json()
     
-    form = FormData(data['years'], data['role'], data['challenge'], data['lang'], data['level'], data['age'], data['hackathons'], data["availability"])
+    form = FormData(data['years'], data['role'], data['challenge'], data['lang'], data['level'], data['age'], data['hackathons'], data["availability"], data["objective"])
     print(form.years, form.role, form.challenge, form.lang, form.level, form.age, form.hackathons, form.availability)
     participant = Participant(id=None,
                               name=None,
@@ -26,7 +26,7 @@ def api_endpoint():
                               hackathons_done=form.hackathons,
                               interests=None,
                               preferred_role=form.role,
-                              objective='i want to be happy',
+                              objective=form.objective,
                               objective_vector=None,
                               interest_in_challenges=form.challenge,
                               preferred_languages=form.lang,
