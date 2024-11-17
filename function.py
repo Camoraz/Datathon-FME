@@ -59,7 +59,8 @@ def load_data():
                         "preferred_role":-2,
                         "interest_in_challenges":5,
                         "preferred_languages":5,
-                        "availability":10
+                        "availability":10,
+                        "programming_skills":-3
                         },
         "numeric" : {"experience_level":1, "age":1, "year_of_study":1, "hackathons_done":0.5},
         "nlp" : {"objective_vector":5}
@@ -112,7 +113,7 @@ def recommend(participant, n):
             distance += change
             effect_list[variable] = effect_list.get(variable, 0) + change
 
-        distance_list[i] = distance
+        distance_list[i] = (distance, participants[i].id)
 
     total_importance = sum(effect_list.values())
 
@@ -122,35 +123,47 @@ def recommend(participant, n):
     if n <= 0:
         return []
     
-    return distance_list[:n], effect_list
+    distance_list.sort(key=lambda x: x[0])
+    maxim = max(distance_list, key=lambda x: x[0])[0]
+    return [(distance_list[i][1], 100 - (distance_list[i][0] / maxim) * 100) for i in range(n)], effect_list
 
 
 if __name__ == '__main__':
     
     from participant import Participant
     
-    participant = Participant(id=None,
-                              name=None,
+    participant = Participant(id="shuwe78wasd",
+                              name="Raúl",
                               email=None,
                               age=18,
-                              year_of_study=4,
+                              year_of_study="4th year",
                               shirt_size=None,
                               university=None,
                               dietary_restrictions=None,
-                              programming_skills=["Python"],
-                              experience_level="Beginner",
-                              hackathons_done=5,
+                              programming_skills={
+            "C#": 2,
+            "C++": 4,
+            "C": 6,
+            "Unity": 3,
+            "Python": 3,
+            "JavaScript": 2,
+            "NodeJS": 5,
+            "Numpy": 2,
+            "SQL": 5
+        },
+                              experience_level="Intermediate",
+                              hackathons_done=2,
                               interests=None,
-                              preferred_role=["Analysis"],
-                              objective="Hello, I want to win",
+                              preferred_role=["Design"],
+                              objective="I'm super stoked to be participating in this datathon! My goal is to soak up the vibes, learn from others, and have an absolute blast. I want to join in on as many events and workshops as I can, learn new skills and insights, and make friends with like-minded peeps. I'm more about having fun and making connections than about trying to win (although, I do love a good challenge!). My objective is to leave this datathon feeling refreshed, inspired, and with new friendships to look back on. Bring it on!",
                               objective_vector=None,
                               interest_in_challenges=["restb.ai"],
-                              preferred_languages=["spanish"],
-                              friend_registration=None,
+                              preferred_languages=["English", "Catalan"],
+                              friend_registration=[],
                               preferred_team_size=None,
-                              availability= {"Saturday morning": False,
+                              availability= {"Saturday morning": True,
                                         "Saturday afternoon": True,
-                                        "Saturday night": True,
+                                        "Saturday night": False,
                                         "Sunday morning": True,
                                         "Sunday afternoon": True },
                               introduction=None,
@@ -159,4 +172,4 @@ if __name__ == '__main__':
                               fun_fact=None)
 
     distance, effect = recommend(participant, 10)
-    print(effect)
+    print(distance)
