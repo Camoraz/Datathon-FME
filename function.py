@@ -51,7 +51,7 @@ def process_data(particips):
     return returning
 
 def load_data():
-    data_path = "./data/datathon_participants2.json"
+    data_path = "./AEDChallenge/data/datathon_participants2.json"
     participants = load_participants(data_path)
     participants = process_data(participants)
     data_types = {
@@ -77,6 +77,8 @@ def recommend(participant, n):
     nlp = data_types["nlp"]
 
     participant = process_data([participant])[0]
+
+    participant.objective_vector = get_sentence_embedding(participant.objective, model)
 
     # Compute normalizer
     norm = sum(categorical.values()) + sum(numeric.values()) + sum(nlp.values())
@@ -122,14 +124,39 @@ def recommend(participant, n):
     
     return distance_list[:n], effect_list
 
-<<<<<<< HEAD
-from participant import Participant
-
-distance, effect = recommend(0, 10)
-print(distance)
-=======
 
 if __name__ == '__main__':
-    distance, effect = recommend(0, 10)
+    
+    from participant import Participant
+    
+    participant = Participant(id=None,
+                              name=None,
+                              email=None,
+                              age=2,
+                              year_of_study=4,
+                              shirt_size=None,
+                              university=None,
+                              dietary_restrictions=None,
+                              programming_skills=["Python"],
+                              experience_level="Beginner",
+                              hackathons_done=5,
+                              interests=None,
+                              preferred_role=["Analysis"],
+                              objective="Hello, I want to win",
+                              objective_vector=None,
+                              interest_in_challenges=["restb.ai"],
+                              preferred_languages=["spanish"],
+                              friend_registration=None,
+                              preferred_team_size=None,
+                              availability= {"Saturday morning": False,
+                                        "Saturday afternoon": True,
+                                        "Saturday night": True,
+                                        "Sunday morning": True,
+                                        "Sunday afternoon": True },
+                              introduction=None,
+                              technical_project=None,
+                              future_excitement=None,
+                              fun_fact=None)
+
+    distance, effect = recommend(participant, 10)
     print(effect)
->>>>>>> 6813c2107bfdd10fa4c9d7117fee18af23cfc4e9
