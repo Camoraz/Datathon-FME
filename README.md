@@ -3,7 +3,7 @@
     <h1>Repte AED - Datathon FME 2024</h1>
 </div>
 
-https://www.youtube.com/watch?v=OkLWp4VfjXU&ab_channel=discoman
+[![Alt text](https://img.youtube.com/vi/OkLWp4VfjXU/0.jpg)](https://www.youtube.com/watch?v=OkLWp4VfjXU)
 
 # Participant Recommendation System
 
