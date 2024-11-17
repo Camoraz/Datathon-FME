@@ -159,7 +159,6 @@ if __name__ == '__main__':
                               objective="I'm super stoked to be participating in this datathon! My goal is to soak up the vibes, learn from others, and have an absolute blast. I want to join in on as many events and workshops as I can, learn new skills and insights, and make friends with like-minded peeps. I'm more about having fun and making connections than about trying to win (although, I do love a good challenge!). My objective is to leave this datathon feeling refreshed, inspired, and with new friendships to look back on. Bring it on!",
                               objective_vector=None,
                               interest_in_challenges=["restb.ai"],
-
                               preferred_languages=["English", "Catalan"],
                               friend_registration=[],
                               preferred_team_size=4,
