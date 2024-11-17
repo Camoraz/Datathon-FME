@@ -51,7 +51,7 @@ def process_data(particips):
     return returning
 
 def load_data():
-    data_path = "./AEDChallenge/data/datathon_participants2.json"
+    data_path = "./data/datathon_participants2.json"
     participants = load_participants(data_path)
     participants = process_data(participants)
     data_types = {
@@ -126,7 +126,7 @@ def recommend(participant, n):
     
     distance_list.sort(key=lambda x: x[0])
     maxim = max(max(distance_list, key=lambda x: x[0])[0], 2000)
-    return [(distance_list[i][1], 100 - (distance_list[i][0] / maxim) * 100) for i in range(n)], effect_list
+    return [(distance_list[i][1],round( 100 - (distance_list[i][0] / maxim) * 100), 2) for i in range(n)], effect_list
 
 
 if __name__ == '__main__':

@@ -1,6 +1,6 @@
 
 class FormData:
-    def __init__(self, years, role, challenge, lang, level, age, hackathons) -> None:
+    def __init__(self, years, role, challenge, lang, level, age, hackathons, availability) -> None:
         self.years= self.formatYears(years)
         self.role = self.formatRole(role)
         self.challenge = self.formatChallenge(challenge)
@@ -8,6 +8,7 @@ class FormData:
         self.level = self.formatLevel(level)
         self.age = self.formatAge(age)
         self.hackathons = self.formatHackathons(hackathons)
+        self.availability = availability
     
     def formatYears(self, years):
         years = years.strip()

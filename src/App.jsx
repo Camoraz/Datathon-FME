@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import './App.css';
 import APIService from '../APIservice';
+import participants from '../data/datathon_participants.json'
+
 function App() {
   const [data, setData] = useState({
     name: '',
@@ -8,17 +10,27 @@ function App() {
     role: '',
     challenge: '',
     lang: '',
-    availability: '',
+    availability: {'Saturday morning':false, 'Saturday afternoon':false , 'Saturday night': false, 'Sunday morning':false, "Sunday afternoon":false},
     level: '',
     age: '',
     hackathons: '',
   });
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState([]);
+  const [selectedId, setSelectedId] = useState(null)
+  const [res, setRes] = useState([])
+  const updateMessage = (m) => {
+    const newMessage = {...m}
+    setRes(newMessage)
+    const filteredData = participants.filter((item) => item.id in newMessage)
+    console.log(filteredData)
 
-  const sendData = () => {
+    setMessage(filteredData)
+  }
+  
+  const sendData = async () => {
     const dataCorrected = {...data, lang:data.lang.replaceAll(',', '').trim().split(' '), challenge: data.challenge.split(',')}
-    console.log(dataCorrected)
-    APIService.getData(dataCorrected);
+    const newMessage = await APIService.getData(dataCorrected);
+    updateMessage(newMessage)
   };
 
   const handleChange = (event) => {
@@ -39,9 +51,27 @@ function App() {
       setData({ ...data, challenge: data.challenge.replace(event.target.value, '')})
   }
 
+  const handleAvailability = (event) => 
+  {
+    const new_av = {...data.availability, [event.target.value]: !data.availability[event.target.value]}
+    console.log("puta",new_av)
+
+    setData({...data, availability: new_av})
+    
+  }
+
+  const handleToggle = (id) => {
+    setSelectedId((prevId) => (prevId === id ? null : id));
+  };
+  
+  const foo = () => {
+    console.log(res)
+  }
+
   return (
     <>
-      <h1>Perfect Groups Generator AI powered blockchain ML</h1>
+      <h1 className='title'>Mao Finder 猫</h1>
+      <div className={"wrapper"}>
       <form onSubmit={handleSubmit}>
         {/* Name */}
         <div className="inputDiv">
@@ -123,13 +153,17 @@ function App() {
         {/* Availability */}
         <div className="inputDiv">
           <label>Disponibilidad:</label>
-          <input
-            type="text"
-            name="availability"
-            value={data.availability}
-            placeholder="Horas disponibles"
-            onChange={handleChange}
-          />
+          {["Saturday morning", "Saturday afternoon", "Saturday night", "Sunday morning", "Sunday afternoon"].map((timeframe)=> (
+            <button
+              type='button'
+              key={timeframe}
+              className={data.availability[timeframe]? "radioButton active" : "radioButton"}
+              value={timeframe}
+              onClick={handleAvailability}
+            >{timeframe}
+            </button>
+          ))}
+          
         </div>
 
         {/* Level */}
@@ -175,9 +209,31 @@ function App() {
 
         <button type="submit">Enviar</button>
       </form>
-      {message && <p>{message}</p>}
+      <div >
+        {message && message.map((item) => (
+          <ul key={item.id}>
+            <button onClick={() => handleToggle(item.id)} className={"resultButton"}>
+              <h2>{item.name} {res[item.id]}%</h2>
+              </button> 
+              {selectedId === item.id && (
+                <div className={"textContainer"} >
+                  <p>Age: {item.age}</p>
+                  <p>Year: {item.year_of_study}</p>
+                  <p>Level: {item.experience_level}</p>
+                  
+                  <p>Languages: {item.preferred_languages}</p>
+                  <p >Objective: {item.objective}</p>
+      
+                </div>
+              )}
+          </ul>         
+        ))
+        }
+      </div>
+      </div>
+
     </>
+    
   );
 }
-
 export default App;

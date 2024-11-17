@@ -9,6 +9,12 @@ body {
   margin: 0;
 }
 
+.wrapper
+{
+  display: flex;
+  
+}
+
 h1 {
   text-align: center;
   color: #333;
@@ -78,4 +84,24 @@ button[type="submit"] {
 
 button[type="submit"]:hover {
   background-color: #0056b3;
+}
+.title
+{
+  color: white;
+}
+.textContainer
+{
+  max-width: 600px;
+  width: 100%;
+  background-color: #444;
+  padding: 10px;
+  border-radius: 20px;
+}
+p{
+  margin: 2px;
+  word-wrap: break-word;
+}
+.resultButton
+{
+  background-color: #444;
 }
