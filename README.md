@@ -13,12 +13,11 @@ This Python project implements a recommendation system for participants in a dat
 Maps attributes like academic year and experience level to numeric values.
 Encodes participant objectives into semantic vectors using a pre-trained Sentence-BERT model (all-MiniLM-L6-v2).
 Handles negation in sentences to improve embeddings.
-Similarity Computation:
 
 # Measures similarity using:
-*Numerical features*: Euclidean distance.
-*Categorical features*: Jaccard distance.
-*NLP features*: Cosine similarity of sentence embeddings.
+ - *Numerical features*: Euclidean distance.
+ - *Categorical features*: Jaccard distance.
+ - *NLP features*: Cosine similarity of sentence embeddings.
 Weights features dynamically to compute a comprehensive similarity score.
 
 # Recommendations:
