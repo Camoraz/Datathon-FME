@@ -3,6 +3,8 @@
     <h1>Repte AED - Datathon FME 2024</h1>
 </div>
 
+https://www.youtube.com/watch?v=OkLWp4VfjXU&ab_channel=discoman
+
 # Participant Recommendation System
 
 This Python project implements a recommendation system for participants in a datathon. It matches participants based on their attributes, interests, and goals using a combination of numerical, categorical, and natural language features.
