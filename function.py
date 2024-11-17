@@ -51,7 +51,7 @@ def process_data(particips):
     return returning
 
 def load_data():
-    data_path = "./data/datathon_participants2.json"
+    data_path = "./AEDChallenge/data/datathon_participants2.json"
     participants = load_participants(data_path)
     participants = process_data(participants)
     data_types = {

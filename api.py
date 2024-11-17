@@ -45,6 +45,7 @@ def api_endpoint():
 
 
     _, response = recommend(participant, 5)
+    print(_)
 
     return jsonify({"message": "Received", "data": _})
 
