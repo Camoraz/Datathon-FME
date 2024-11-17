@@ -62,7 +62,8 @@ def load_data():
                         "availability":10,
                         "programming_skills":-3
                         },
-        "numeric" : {"experience_level":1, "age":1, "year_of_study":1, "hackathons_done":0.5},
+        "numeric" : {"experience_level":1, "preferred_team_size":1,
+                     "age":1, "year_of_study":1, "hackathons_done":0.5},
         "nlp" : {"objective_vector":5}
     }
 
@@ -124,7 +125,7 @@ def recommend(participant, n):
         return []
     
     distance_list.sort(key=lambda x: x[0])
-    maxim = max(distance_list, key=lambda x: x[0])[0]
+    maxim = max(max(distance_list, key=lambda x: x[0])[0], 2000)
     return [(distance_list[i][1], 100 - (distance_list[i][0] / maxim) * 100) for i in range(n)], effect_list
 
 
@@ -158,9 +159,10 @@ if __name__ == '__main__':
                               objective="I'm super stoked to be participating in this datathon! My goal is to soak up the vibes, learn from others, and have an absolute blast. I want to join in on as many events and workshops as I can, learn new skills and insights, and make friends with like-minded peeps. I'm more about having fun and making connections than about trying to win (although, I do love a good challenge!). My objective is to leave this datathon feeling refreshed, inspired, and with new friendships to look back on. Bring it on!",
                               objective_vector=None,
                               interest_in_challenges=["restb.ai"],
+
                               preferred_languages=["English", "Catalan"],
                               friend_registration=[],
-                              preferred_team_size=None,
+                              preferred_team_size=4,
                               availability= {"Saturday morning": True,
                                         "Saturday afternoon": True,
                                         "Saturday night": False,
