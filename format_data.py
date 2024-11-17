@@ -10,21 +10,28 @@ class FormData:
         self.hackathons = self.formatHackathons(hackathons)
     
     def formatYears(self, years):
-        years = years.lower().strip()
-        if years in ['1', '2', '3', '4', 'master', 'phd']:
-            return int(years)
+        years = years.strip()
+        if years in ['1st year', '2nd year', '3rd year', '4th year', 'Master', 'PhD']:
+            return years
         return None
     def formatRole(self, role):
-        role = role.lower().strip()
-        if role in ['analysis', 'visualization', 'development', 'design']:
-            return role
+        role = role.strip()
+        if role in ['Analysis', 'Visualization', 'Development', 'Design']:
+            return [role]
         return None
     def formatChallenge(self, challenge):
-        for i, c in enumerate(challenge):
-            challenge[i] = c.lower().strip()
-        if challenge in ['restb.ai challenge', 'aed challenge', 'mango challenge']:
-            return challenge
-        return None
+        l = []
+        for c in challenge:
+            match(c):
+                case 'restb.ai challenge':
+                    l.append('restb.ai challenge')
+                    break
+                case 'aed challenge':
+                    l.append('aed challenge')
+                    break
+                case 'mango challenge':
+                    l.append('mango challenge')
+        return l
     def formatLang(self, lang):
         for i,l in enumerate(lang):
             lang[i] = l.lower().strip()
@@ -36,8 +43,8 @@ class FormData:
             return int(age)
         return None
     def formatLevel(self, level):
-        level = level.lower().strip()
-        if level in ['beginner', 'intermediate', 'advanced']:
+        level = level.strip()
+        if level in ['Beginner', 'Intermediate', 'Advanced']:
             return level
         return None
     def formatHackathons(self, hackathons):

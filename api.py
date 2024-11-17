@@ -12,6 +12,7 @@ def api_endpoint():
     data = request.get_json()
     
     form = FormData(data['years'], data['role'], data['challenge'], data['lang'], data['level'], data['age'], data['hackathons'])
+    print(form.years, form.role, form.challenge, form.lang, form.level, form.age, form.hackathons)
     participant = Participant(id=None,
                               name=None,
                               email=None,
@@ -25,7 +26,7 @@ def api_endpoint():
                               hackathons_done=form.hackathons,
                               interests=None,
                               preferred_role=form.role,
-                              objective=None,
+                              objective='i want to be happy',
                               objective_vector=None,
                               interest_in_challenges=form.challenge,
                               preferred_languages=form.lang,
@@ -43,9 +44,9 @@ def api_endpoint():
     
 
 
-    response = recommend(participant, 5)
+    _, response = recommend(participant, 5)
 
-    return jsonify({"message": "Received", "data": response})
+    return jsonify({"message": "Received", "data": _})
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -16,7 +16,7 @@ function App() {
   const [message, setMessage] = useState('');
 
   const sendData = () => {
-    const dataCorrected = {...data, lang:data.lang.replaceAll(',', '').trim().split(' '), challenge: data.challenge.replaceAll(',', '').trim().split(' ')}
+    const dataCorrected = {...data, lang:data.lang.replaceAll(',', '').trim().split(' '), challenge: data.challenge.split(',')}
     console.log(dataCorrected)
     APIService.getData(dataCorrected);
   };
@@ -32,9 +32,9 @@ function App() {
   };
 
   const handleMulti = (event) =>  {
-    console.log(event.target.value)
+    console.log('clicked: ',event.target.value, 'previous: ',data.challenge)
     if (!data.challenge.includes(event.target.value)) {
-      setData({ ...data, challenge: "".concat(data.challenge, " ", event.target.value)})
+      setData({ ...data, challenge: "".concat(data.challenge, ",", event.target.value)})
     } else 
       setData({ ...data, challenge: data.challenge.replace(event.target.value, '')})
   }
@@ -59,7 +59,7 @@ function App() {
         <div className="inputDiv">
           <label>Año de estudio:</label>
           <div className="buttonGroup">
-            {['1', '2', '3', '4', 'masters', 'phd'].map((value) => (
+            {['1st year', '2nd year', '3rd year', '4th year', 'Masters', 'PhD'].map((value) => (
               <button
                 type="button"
                 key={value}
@@ -76,7 +76,7 @@ function App() {
         <div className="inputDiv">
           <label>Rol preferido:</label>
           <div className="buttonGroup">
-            {['analysis', 'visualization', 'development', 'design'].map((value) => (
+            {['Analysis', 'Visualization', 'Development', 'Design'].map((value) => (
               <button
                 type="button"
                 key={value}
@@ -94,7 +94,7 @@ function App() {
         <div className="inputDiv">
           <label>Desafío seleccionado:</label>
           <div className="buttonGroup">
-            {['restb.ai', 'aed challenge', 'mango challenge'].map((value) => (
+            {['restb.ai challenge', 'aed challenge', 'mango challenge'].map((value) => (
               <button
                 type="button"
                 key={value}
@@ -136,7 +136,7 @@ function App() {
         <div className="inputDiv">
           <label>Nivel de experiencia:</label>
           <div className="buttonGroup">
-            {['beginner', 'intermediate', 'advanced'].map((value) => (
+            {['Beginner', 'Intermediate', 'Advanced'].map((value) => (
               <button
                 type="button"
                 key={value}
