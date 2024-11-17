@@ -22,6 +22,6 @@ Weights features dynamically to compute a comprehensive similarity score.
 
 # Recommendations:
 
-Suggests the top n most similar participants to a given participant.
+Suggests the top n most similar participants to a given participant, according to how many people you need for your team.
 
 Provides insights into the relative importance of each feature in the recommendation process.
