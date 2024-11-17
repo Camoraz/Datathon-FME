@@ -132,7 +132,7 @@ if __name__ == '__main__':
     participant = Participant(id=None,
                               name=None,
                               email=None,
-                              age=2,
+                              age=18,
                               year_of_study=4,
                               shirt_size=None,
                               university=None,
