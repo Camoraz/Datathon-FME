@@ -93,22 +93,21 @@ def recommend(participant, n):
         distance = 0
 
         # Numeric - Euclidean Distance
-        value = float(getattr(participant, variable))
         for variable, weight in numeric.items():
-            change = abs(value - float(getattr(participants[i], variable))) * weight * norm
+            change = abs(
+                            - float(getattr(participants[i], variable))) * weight * norm
             distance += change
             effect_list[variable] = effect_list.get(variable, 0) + change
         
         # Categorical - Jaccard
-        value = getattr(participant, variable)
         for variable, weight in categorical.items():
-            change = int(value != getattr(participants[i], variable)) * weight * norm
+            change = int(getattr(participant, variable)
+                            != getattr(participants[i], variable)) * weight * norm
             distance += change
             effect_list[variable] = effect_list.get(variable, 0) + change
 
         for variable, weight in nlp.items():
-            value = getattr(participant, variable)
-            change = (1 - util.pytorch_cos_sim(value,
+            change = (1 - util.pytorch_cos_sim(getattr(participant, variable),
                                             getattr(participants[i], variable)).item() ** 2) * weight * norm
             distance += change
             effect_list[variable] = effect_list.get(variable, 0) + change
